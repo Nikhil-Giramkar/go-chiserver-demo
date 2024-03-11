@@ -6,7 +6,7 @@ import (
 	"fmt"
 	"net/http"
 
-	"github.com/Nikhil-Giramkar/go-chiserver-demo/domain/newsFeed"
+	"go-chiserver-demo/domain/newsFeed"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
