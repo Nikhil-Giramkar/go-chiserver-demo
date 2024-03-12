@@ -2,9 +2,9 @@ package server
 
 import (
 	"context"
-	"encoding/json"
 	"fmt"
 	newsFeed "go-chiserver-demo/domain"
+	handlers "go-chiserver-demo/handlers"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -29,40 +29,12 @@ func setUpGetHandlers(address string, router *chi.Mux, feed *newsFeed.Repo) *htt
 
 	//http://localhost:3000/newsfeed
 
-	router.Get("/newsfeed", getNewsHandler(feed))
+	router.Get("/newsfeed", handlers.GetNews(feed))
 
 	//Pass JSON in request body at bove URL
-	router.Post("/newsfeed", postNewsHandler(feed))
+	router.Post("/newsfeed", handlers.PostNews(feed))
 
 	return &http.Server{Addr: address, Handler: router}
-}
-
-// Get All News
-func getNewsHandler(feed *newsFeed.Repo) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		items := feed.GetAll()
-		encoder := json.NewEncoder(w)
-
-		encoder.SetIndent("", "	")
-		encoder.Encode(items)
-	}
-}
-
-// Post a news Feed
-func postNewsHandler(feed *newsFeed.Repo) http.HandlerFunc {
-	return func(w http.ResponseWriter, r *http.Request) {
-		request := map[string]string{}
-		decoder := json.NewDecoder(r.Body)
-
-		decoder.Decode(&request)
-
-		feed.Add(newsFeed.Item{
-			Title: request["title"],
-			Post:  request["post"],
-		})
-
-		w.Write([]byte("News Feed Item added successfully"))
-	}
 }
 
 // Start server by calling this function
