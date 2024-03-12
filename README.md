@@ -1,6 +1,6 @@
 # News Feed Server
 
-In this project, I jave created a server which listens for <br>
+In this project, I have created a server which listens for <br>
 GET and POST requests at a particular port.<br>
 <br>
 User can get all news feeds<br>
@@ -18,6 +18,7 @@ Run the application
     go run main.go
 ```
 
+# To create from scratch
 
 ##   Chi Server in Go
 
