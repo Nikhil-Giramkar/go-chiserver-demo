@@ -20,12 +20,12 @@ type serverChi struct {
 func NewServer(address string, feed *newsFeed.Repo) *serverChi {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
-	server := setUpGetHandlers(address, router, feed)
+	server := setUpHandlers(address, router, feed)
 	return &serverChi{router, server}
 }
 
 // Get Handlers added here
-func setUpGetHandlers(address string, router *chi.Mux, feed *newsFeed.Repo) *http.Server {
+func setUpHandlers(address string, router *chi.Mux, feed *newsFeed.Repo) *http.Server {
 
 	//http://localhost:3000/newsfeed
 
