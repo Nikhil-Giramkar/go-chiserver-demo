@@ -1,4 +1,25 @@
-#   Chi Server in Go
+# News Feed Server
+
+In this project, I jave created a server which listens for <br>
+GET and POST requests at a particular port.<br>
+<br>
+User can get all news feeds<br>
+And Post JSON of items to be added in News Feed's list <br>
+<br>
+To run this application
+
+Install the dependaancies via
+```
+    go mod tidy
+```
+
+Run the application
+```
+    go run main.go
+```
+
+
+##   Chi Server in Go
 
 Chi is a lightweight alternative to Gin
 It provides simple wrappers around the standard libraries.
