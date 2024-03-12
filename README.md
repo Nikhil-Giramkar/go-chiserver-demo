@@ -42,6 +42,11 @@ The domain/model contains necessary Add, Get and New methods
 
 ## Zerolog and LumberJack
 
+Install Dependancies: 
+```
+    go get -u github.com/rs/zerolog/log
+    go get gopkg.in/natefinch/lumberjack.v2
+```
 To implement logging functionality in code, <br>
 I used Zerolog and LumberJack.
 Zerolog provides a structured way for writing logs.
