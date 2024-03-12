@@ -33,10 +33,10 @@ The domain/model contains necessary Add, Get and New methods
 
 <p> POST: http://localhost:3000/newsfeed </p>
 <p>    Body:  </p>
-    ```
+```
         {
         "title": "another title",
         "post": "another post"
         }
-    ```
+```
 
