@@ -6,8 +6,8 @@ import (
 	"os"
 	"os/signal"
 
-	"go-chiserver-demo/domain/newsFeed"
-	"go-chiserver-demo/server/chiserver"
+	newsFeed "go-chiserver-demo/domain"
+	chiserver "go-chiserver-demo/server"
 )
 
 func main() {
@@ -19,9 +19,13 @@ func main() {
 
 	serverAddress := "localhost:3000"
 
+	//Dummy Data
 	feed := newsFeed.New()
 
-	server := chiserver.NewServer(serverAddress, feed)
+	//Setup server and handlers
+	server := chiserver.NewServer(serverAddress, *feed)
+
+	//Start listening
 	server.Start(ctx)
 
 	fmt.Println("Press Ctrl + C to shutdown")

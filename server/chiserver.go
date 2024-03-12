@@ -4,9 +4,8 @@ import (
 	"context"
 	"encoding/json"
 	"fmt"
+	newsFeed "go-chiserver-demo/domain"
 	"net/http"
-
-	"go-chiserver-demo/domain/newsFeed"
 
 	"github.com/go-chi/chi/v5"
 	"github.com/go-chi/chi/v5/middleware"
@@ -17,22 +16,27 @@ type serverChi struct {
 	server *http.Server
 }
 
-func NewServer(address string, feed newsFeed.Getter) *serverChi {
+// Exposes a router and server
+func NewServer(address string, feed newsFeed.Repo) *serverChi {
 	router := chi.NewRouter()
 	router.Use(middleware.Logger)
 	server := setUpGetHandlers(address, router, feed)
 	return &serverChi{router, server}
 }
 
-func setUpGetHandlers(address string, router *chi.Mux, feed newsFeed.Getter) *http.Server {
+// Get Handlers added here
+func setUpGetHandlers(address string, router *chi.Mux, feed newsFeed.Repo) *http.Server {
+
+	//http://localhost:3000/getnews
 	router.Get("/getnews", getNewsHandler(feed))
 
 	return &http.Server{Addr: address, Handler: router}
 }
 
-func getNewsHandler(feed newsFeed.Getter) http.HandlerFunc {
+// Get All News
+func getNewsHandler(feed newsFeed.Repo) http.HandlerFunc {
 	return func(w http.ResponseWriter, r *http.Request) {
-		items := feed.Getter()
+		items := feed.GetAll()
 		encoder := json.NewEncoder(w)
 
 		encoder.SetIndent("", "	")
@@ -40,9 +44,10 @@ func getNewsHandler(feed newsFeed.Getter) http.HandlerFunc {
 	}
 }
 
+// Start server by calling this function
 func (s *serverChi) Start(ctx context.Context) {
 	go func() {
-		fmt.Println("HTTP Server running on: " + s.server.Addr)
+		fmt.Println("HTTP Server running on: http://" + s.server.Addr)
 
 		if err := s.server.ListenAndServe(); err != http.ErrServerClosed {
 			fmt.Errorf("Error: %v", err)
