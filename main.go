@@ -7,12 +7,14 @@ import (
 	"os/signal"
 
 	newsFeed "go-chiserver-demo/domain"
+	myLogger "go-chiserver-demo/logger"
 	chiserver "go-chiserver-demo/server"
 )
 
 func main() {
 	exitChannel := make(chan os.Signal)
 	signal.Notify(exitChannel, os.Interrupt)
+	l := myLogger.Get()
 
 	ctx, cancel := context.WithCancel(context.Background())
 	defer cancel()
@@ -28,9 +30,11 @@ func main() {
 
 	//Setup server and handlers
 	server := chiserver.NewServer(serverAddress, &feed)
+	l.Info("Server with handlers established")
 
 	//Start listening
 	server.Start(ctx)
+	l.Info("Server running...")
 
 	fmt.Println("Press Ctrl + C to shutdown")
 	<-exitChannel

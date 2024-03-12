@@ -5,6 +5,7 @@ import (
 	"fmt"
 	newsFeed "go-chiserver-demo/domain"
 	handlers "go-chiserver-demo/handlers"
+	myLogger "go-chiserver-demo/logger"
 	"net/http"
 
 	"github.com/go-chi/chi/v5"
@@ -28,19 +29,24 @@ func NewServer(address string, feed *newsFeed.Repo) *serverChi {
 func setUpHandlers(address string, router *chi.Mux, feed *newsFeed.Repo) *http.Server {
 
 	//http://localhost:3000/newsfeed
+	l := myLogger.Get()
 
 	router.Get("/newsfeed", handlers.GetNews(feed))
 
 	//Pass JSON in request body at bove URL
 	router.Post("/newsfeed", handlers.PostNews(feed))
 
+	l.Info("Get and Post at endpoint: http://localhost:3000/newsfeed")
+
 	return &http.Server{Addr: address, Handler: router}
 }
 
 // Start server by calling this function
 func (s *serverChi) Start(ctx context.Context) {
+	l := myLogger.Get()
+
 	go func() {
-		fmt.Println("HTTP Server running on: http://" + s.server.Addr)
+		l.Info("HTTP Server running on: http://" + s.server.Addr)
 
 		if err := s.server.ListenAndServe(); err != http.ErrServerClosed {
 			fmt.Errorf("Error: %v", err)

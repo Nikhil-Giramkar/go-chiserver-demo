@@ -39,3 +39,10 @@ The domain/model contains necessary Add, Get and New methods
     "post": "another post"
 }
 ```
+
+## Zerolog and LumberJack
+
+To implement logging functionality in code, <br>
+I used Zerolog and LumberJack.
+Zerolog provides a structured way for writing logs.
+Lumberjack helps writing logs to rolling files.
