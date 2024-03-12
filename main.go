@@ -20,10 +20,14 @@ func main() {
 	serverAddress := "localhost:3000"
 
 	//Dummy Data
-	feed := newsFeed.New()
+	feed := *newsFeed.New()
+	feed.Add(newsFeed.Item{
+		Title: "First Title",
+		Post:  "First Post",
+	})
 
 	//Setup server and handlers
-	server := chiserver.NewServer(serverAddress, *feed)
+	server := chiserver.NewServer(serverAddress, &feed)
 
 	//Start listening
 	server.Start(ctx)
